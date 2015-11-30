@@ -21,6 +21,13 @@ module Fog
             super
           end
         end
+
+        def dump_object_to_file_system(gridfs_file, target_file)
+          file = ::File.open(target_file, 'w')
+          gridfs_file.each do |chunk|
+            file.write(chunk.force_encoding('UTF-8'))
+          end
+        end
       end
     end
   end

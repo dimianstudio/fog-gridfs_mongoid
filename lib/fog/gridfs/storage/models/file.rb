@@ -23,6 +23,14 @@ module Fog
           service.put(body, { filename: key })
         end
 
+        def copy(target_directory_key, target_file_key, options={})
+          requires :key
+
+          target_file = target_directory_key + '/' + target_file_key
+          file = service.file_model.where(filename: key).first
+          service.dump_object_to_file_system(file, target_file)
+        end
+
         def destroy
           requires :key
 

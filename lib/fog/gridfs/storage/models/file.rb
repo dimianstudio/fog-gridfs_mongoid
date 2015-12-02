@@ -20,7 +20,17 @@ module Fog
 
         def save(options = {})
           requires :key, :body
-          service.put(body, { filename: key })
+
+          aliases_map = self.class.aliases.invert
+          attrs = {}
+
+          attributes.each do |key, value|
+            __alias = aliases_map[key.to_sym]
+            next unless __alias
+            attrs[__alias] = value
+          end
+
+          service.put(body, attrs)
         end
 
         def copy(target_directory_key, target_file_key, options={})

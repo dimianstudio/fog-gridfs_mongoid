@@ -30,7 +30,7 @@ module Fog
             attrs[__alias] = value
           end
 
-          service.put(body, attrs)
+          service.put(attributes[:body], attrs)
         end
 
         def copy(target_directory_key, target_file_key, options={})

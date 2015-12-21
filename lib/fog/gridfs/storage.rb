@@ -23,10 +23,15 @@ module Fog
         end
 
         def dump_object_to_file_system(gridfs_file, target_file)
-          file = ::File.open(target_file, 'w')
+          tmp_file = Tempfile.new(::File.basename(target_file))
+
           gridfs_file.each do |chunk|
-            file.write(chunk.force_encoding('UTF-8'))
+            tmp_file.write(chunk.force_encoding('UTF-8'))
           end
+
+          tmp_file.rewind
+
+          FileUtils.cp tmp_file.path, target_file
         end
       end
     end
